@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
@@ -40,7 +41,16 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
-    
+
+    /*logo banner slide route start*/
+    Route::get('logo-banner-slide', [LogoBannerSlideController::class, 'index']);
+    Route::post('logo-banner-slide', [LogoBannerSlideController::class, 'store']);
+    Route::get('logo-banner-slide/{id}', [LogoBannerSlideController::class, 'show']);
+    Route::put('logo-banner-slide/{id}', [LogoBannerSlideController::class, 'update']);
+    Route::delete('logo-banner-slide/{id}', [LogoBannerSlideController::class, 'destroy']);
+    Route::patch('logo-banner-slide/{id}', [LogoBannerSlideController::class, 'statusUpdate']);
+    /*logo banner slide route end*/
+
     /*user management -> user route start*/
     Route::get('user', [UserController::class, 'index']);
     Route::post('user', [UserController::class, 'store']);

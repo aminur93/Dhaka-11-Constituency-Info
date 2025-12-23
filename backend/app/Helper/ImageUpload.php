@@ -85,23 +85,19 @@ class ImageUpload
         $height = null,
         $format = 'png',
         $quality = 100
-    )
-    {
+    ) {
         $extension = strtolower($imageFile->getClientOriginalExtension());
 
         $imageName = time() . '_' . preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
 
-        // Relative path for DB
+        // Relative path inside storage/app/public
         $relativePath = $folder
             ? "{$folder}/{$imageName}"
             : $imageName;
 
-        // Storage path
-        $storagePath = "public/{$relativePath}";
-
-        // Direct upload (no processing)
+        // Direct upload for GIF/SVG/WEBP
         if (in_array($extension, ['gif', 'svg', 'webp'])) {
-            Storage::put($storagePath, file_get_contents($imageFile));
+            Storage::disk('public')->put($relativePath, file_get_contents($imageFile));
             return $relativePath;
         }
 
@@ -117,10 +113,11 @@ class ImageUpload
             default => throw new \InvalidArgumentException("Unsupported format: {$format}"),
         };
 
-        Storage::put($storagePath, (string) $image->encode($encoder));
+        Storage::disk('public')->put($relativePath, (string) $image->encode($encoder));
 
         return $relativePath;
     }
+
 
     public static function deleteApplicationStorage(?string $path) : bool
     {

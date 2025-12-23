@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideService;
+use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideServiceImpl;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionService;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Role\RoleService;
@@ -30,6 +32,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             UserService::class,
             UserServiceImpl::class
+        );
+
+        $this->app->bind(
+            LogoBannerSlideService::class,
+            LogoBannerSlideServiceImpl::class
         );
     }
 
