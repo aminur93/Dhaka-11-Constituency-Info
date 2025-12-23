@@ -65,11 +65,6 @@ Database (PostgreSQL)
 ---
 
 ## Screenshots
-![Dashboard](https://your-image-link.com/dashboard.png)  
-![Representative Profile](https://your-image-link.com/profile.png)  
-![Voter Info](https://your-image-link.com/voterinfo.png)  
-
-*(Replace with actual screenshots from your app)*
 
 ---
 
@@ -95,12 +90,8 @@ Database (PostgreSQL)
 ## Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/dhaka-11.git
+git clone https://github.com/aminur93/dhaka-11.git
 
-2. Navigate into the project directory:
-```bash
 cd dhaka-11
 
-3. Setup Docker environment:
-```
 docker-compose up -d
