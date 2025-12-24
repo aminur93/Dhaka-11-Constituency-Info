@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
+use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -41,6 +43,24 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*service category route start*/
+    Route::get('service-category', [ServiceCategoryController::class, 'index']);
+    Route::post('service-category', [ServiceCategoryController::class, 'store']);
+    Route::get('service-category/{id}', [ServiceCategoryController::class, 'show']);
+    Route::put('service-category/{id}', [ServiceCategoryController::class, 'update']);
+    Route::delete('service-category/{id}', [ServiceCategoryController::class, 'destroy']);
+    Route::patch('service-category/{id}', [ServiceCategoryController::class, 'statusUpdate']);
+    /*service category route end*/
+
+    /*Hero section route start*/
+    Route::get('hero-section', [HeroController::class, 'index']);
+    Route::post('hero-section', [HeroController::class, 'store']);
+    Route::get('hero-section/{id}', [HeroController::class, 'show']);
+    Route::put('hero-section/{id}', [HeroController::class, 'update']);
+    Route::delete('hero-section/{id}', [HeroController::class, 'destroy']);
+    Route::patch('hero-section/{id}', [HeroController::class, 'statusUpdate']);
+    /*Hero section route end*/
 
     /*logo banner slide route start*/
     Route::get('logo-banner-slide', [LogoBannerSlideController::class, 'index']);
