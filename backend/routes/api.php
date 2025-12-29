@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\DistrictController;
+use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
@@ -43,6 +45,25 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*District route start*/
+    Route::get('district', [DistrictController::class, 'index']);
+    Route::get('district/get-all-district-division', [DistrictController::class, 'getAllDistrictWithDivision']);
+    Route::post('district', [DistrictController::class, 'store']);
+    Route::get('district/{id}', [DistrictController::class, 'show']);
+    Route::put('district/{id}', [DistrictController::class, 'update']);
+    Route::delete('district/{id}', [DistrictController::class, 'destroy']);
+    Route::patch('district/status-update/{id}', [DistrictController::class, 'updateStatus']);
+    /*District route end*/
+
+    /*division route start*/
+    Route::get('division', [DivisionController::class, 'index']);
+    Route::post('division', [DivisionController::class, 'store']);
+    Route::get('division/{id}', [DivisionController::class, 'show']);
+    Route::put('division/{id}', [DivisionController::class, 'update']);
+    Route::delete('division/{id}', [DivisionController::class, 'destroy']);
+    Route::patch('division/status-update/{id}', [DivisionController::class, 'updateStatus']);
+    /*division route end*/
 
     /*service category route start*/
     Route::get('service-category', [ServiceCategoryController::class, 'index']);

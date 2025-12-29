@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Services\Api\V1\Admin\District\DistrictService;
+use App\Http\Services\Api\V1\Admin\District\DistrictServiceImpl;
+use App\Http\Services\Api\V1\Admin\Division\DivisionService;
+use App\Http\Services\Api\V1\Admin\Division\DivisionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Hero\HeroService;
 use App\Http\Services\Api\V1\Admin\Hero\HeroServiceImpl;
 use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideService;
@@ -14,6 +18,8 @@ use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryService;
 use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryServiceImpl;
 use App\Http\Services\Api\V1\Admin\User\UserService;
 use App\Http\Services\Api\V1\Admin\User\UserServiceImpl;
+use App\Http\Services\Api\V1\Auth\AuthService;
+use App\Http\Services\Api\V1\Auth\AuthServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceBindingProvider extends ServiceProvider
@@ -23,6 +29,11 @@ class ServiceBindingProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(
+            AuthService::class,
+            AuthServiceImpl::class
+        );
+
         $this->app->bind(
             PermissionService::class,
             PermissionServiceImpl::class
@@ -51,6 +62,16 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             ServiceCategoryService::class,
             ServiceCategoryServiceImpl::class
+        );
+
+        $this->app->bind(
+            DivisionService::class,
+            DivisionServiceImpl::class
+        );
+
+        $this->app->bind(
+            DistrictService::class,
+            DistrictServiceImpl::class
         );
     }
 
