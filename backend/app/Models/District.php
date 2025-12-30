@@ -12,6 +12,7 @@ class District extends Model
         'name_bn',
         'code',
         'is_active',
+        'created_by',
     ];
 
     public function division()

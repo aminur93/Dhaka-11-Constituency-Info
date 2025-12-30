@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LogoBannerSlide extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'title',
         'type',
         'image',
-        'image_url'
+        'image_url',
+        'created_by',
     ];
 }

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logo_banner_slides', function (Blueprint $table) {
+        Schema::create('thanas', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->enum('type', ['logo', 'banner', 'slide'])->default('logo');
-            $table->string('image')->nullable();
-            $table->string('image_url')->nullable();
-            $table->tinyInteger('status')->default(1)->comment('1=active,0=inactive');
+            $table->bigInteger('district_id')->unsigned();
+            $table->string('name_en');
+            $table->string('name_bn');
+            $table->string('code');
+            $table->string('constituency')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logo_banner_slides');
+        Schema::dropIfExists('thanas');
     }
 };

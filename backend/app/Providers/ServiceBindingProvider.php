@@ -16,6 +16,8 @@ use App\Http\Services\Api\V1\Admin\Role\RoleService;
 use App\Http\Services\Api\V1\Admin\Role\RoleServiceImpl;
 use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryService;
 use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryServiceImpl;
+use App\Http\Services\Api\V1\Admin\Thana\ThanaService;
+use App\Http\Services\Api\V1\Admin\Thana\ThanaServiceImpl;
 use App\Http\Services\Api\V1\Admin\User\UserService;
 use App\Http\Services\Api\V1\Admin\User\UserServiceImpl;
 use App\Http\Services\Api\V1\Auth\AuthService;
@@ -72,6 +74,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             DistrictService::class,
             DistrictServiceImpl::class
+        );
+
+        $this->app->bind(
+            ThanaService::class,
+            ThanaServiceImpl::class
         );
     }
 

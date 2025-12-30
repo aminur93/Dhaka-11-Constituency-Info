@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('image_url')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1=active,0=inactive');
+            $table->integer('created_by')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

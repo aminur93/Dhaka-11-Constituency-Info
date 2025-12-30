@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hero extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'title_en',
         'title_bn',
@@ -19,5 +17,6 @@ class Hero extends Model
         'image',
         'image_url',
         'status',
+        'created_by',
     ];
 }

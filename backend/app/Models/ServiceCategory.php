@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ServiceCategory extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'name_en',
@@ -17,5 +16,6 @@ class ServiceCategory extends Model
         'image',
         'image_url',
         'status',
+        'created_by',
     ];
 }

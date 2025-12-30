@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
+use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -45,6 +46,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*thana route start*/
+    Route::get('thana', [ThanaController::class, 'index']);
+    Route::post('thana', [ThanaController::class, 'store']);
+    Route::get('thana/{id}', [ThanaController::class, 'show']);
+    Route::put('thana/{id}', [ThanaController::class, 'update']);
+    Route::delete('thana/{id}', [ThanaController::class, 'destroy']);
+    Route::patch('thana/status-update/{id}', [ThanaController::class, 'updateStatus']);
+    /*thana route end*/
 
     /*District route start*/
     Route::get('district', [DistrictController::class, 'index']);

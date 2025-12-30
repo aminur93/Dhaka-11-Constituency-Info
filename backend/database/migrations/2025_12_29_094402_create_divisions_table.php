@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name_bn');
             $table->string('code')->unique();
             $table->boolean('is_active')->default(true);
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }
