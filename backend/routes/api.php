@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
+use App\Http\Controllers\Api\V1\Admin\UnionController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -46,6 +47,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*union route start*/
+    Route::get('union', [UnionController::class, 'index']);
+    Route::post('union', [UnionController::class, 'store']);
+    Route::get('union/{id}', [UnionController::class, 'show']);
+    Route::put('union/{id}', [UnionController::class, 'update']);
+    Route::delete('union/{id}', [UnionController::class, 'destroy']);
+    Route::patch('union/status-update/{id}', [UnionController::class, 'updateStatus']);
+    /*union route end*/
 
     /*thana route start*/
     Route::get('thana', [ThanaController::class, 'index']);
