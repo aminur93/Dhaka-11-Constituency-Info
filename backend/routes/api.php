@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UnionController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Admin\WardController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*ward route start*/
+    Route::get('ward', [WardController::class, 'index']);
+    Route::post('ward', [WardController::class, 'store']);
+    Route::get('ward/{id}', [WardController::class, 'show']);
+    Route::put('ward/{id}', [WardController::class, 'update']);
+    Route::delete('ward/{id}', [WardController::class, 'destroy']);
+    Route::patch('ward/status-update/{id}', [WardController::class, 'updateStatus']);
+    /*ward route end*/
 
     /*union route start*/
     Route::get('union', [UnionController::class, 'index']);

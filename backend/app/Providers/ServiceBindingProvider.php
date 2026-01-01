@@ -22,6 +22,8 @@ use App\Http\Services\Api\V1\Admin\Union\UnionService;
 use App\Http\Services\Api\V1\Admin\Union\UnionServiceImpl;
 use App\Http\Services\Api\V1\Admin\User\UserService;
 use App\Http\Services\Api\V1\Admin\User\UserServiceImpl;
+use App\Http\Services\Api\V1\Admin\Ward\WardService;
+use App\Http\Services\Api\V1\Admin\Ward\WardServiceImpl;
 use App\Http\Services\Api\V1\Auth\AuthService;
 use App\Http\Services\Api\V1\Auth\AuthServiceImpl;
 use Illuminate\Support\ServiceProvider;
@@ -86,6 +88,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             UnionService::class,
             UnionServiceImpl::class
+        );
+
+        $this->app->bind(
+            WardService::class,
+            WardServiceImpl::class
         );
     }
 

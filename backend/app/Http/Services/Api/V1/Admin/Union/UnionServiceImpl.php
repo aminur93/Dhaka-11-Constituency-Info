@@ -13,7 +13,7 @@ class UnionServiceImpl implements UnionService
 
     public function index(Request $request)
     {
-         $union = Union::with('thana', 'user');
+        $union = Union::with('thana', 'user');
 
         // Sorting (secure)
         $sortableColumns = ['id', 'name_en', 'name_bn', 'code', 'created_at'];

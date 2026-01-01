@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('thana_id')->unsigned();
+            $table->bigInteger('union_id')->unsigned()->nullable();
+            $table->string('name_en', 100);
+            $table->string('name_bn', 100);
+            $table->string('ward_number');
+            $table->enum('area_type', ['urban', 'rural']);
+            $table->integer('population_estimate');
+            $table->integer('total_households');
+            $table->boolean('is_active')->default(true);
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }

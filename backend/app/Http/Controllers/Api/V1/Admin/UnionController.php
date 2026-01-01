@@ -24,7 +24,7 @@ class UnionController extends Controller
 
     public function index(Request $request)
     {
-         //Convert pagination query to boolean
+        //Convert pagination query to boolean
         $pagination = filter_var($request->get('pagination', true), FILTER_VALIDATE_BOOLEAN);
 
         // Fetch districts via service

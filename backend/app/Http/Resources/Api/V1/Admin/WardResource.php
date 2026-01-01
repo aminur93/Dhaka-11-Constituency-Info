@@ -14,6 +14,21 @@ class WardResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'thana_id' => $this->thana_id,
+            'thana' => new ThanaResource($this->whenLoaded('thana')),
+            'union_id' => $this->union_id,
+            'union' => new UnionResource($this->whenLoaded('union')),
+            'name_en' => $this->name_en,
+            'name_bn' => $this->name_bn,
+            'ward_number' => $this->ward_number,
+            'area_type' => $this->area_type,
+            'population_estimate' => $this->population_estimate,
+            'total_households' => $this->total_households,
+            'is_active' => $this->is_active,
+            'created_by' => $this->created_by,
+            'created_by_user' => new UserResource($this->whenLoaded('user')),
+        ];
     }
 }
