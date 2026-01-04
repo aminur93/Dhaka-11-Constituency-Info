@@ -79,7 +79,7 @@ class AreaDemographicController extends Controller
         }
     }
 
-     public function update(Request $request, int $id)
+    public function update(Request $request, int $id)
     {
         try {
 
@@ -105,7 +105,7 @@ class AreaDemographicController extends Controller
         }
     }
 
-     public function destroy(int $id)
+    public function destroy(int $id)
     {
         try {
 

@@ -11,9 +11,9 @@ use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UnionController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Admin\WardCommissionerController;
 use App\Http\Controllers\Api\V1\Admin\WardController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -49,6 +49,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*ward commissioner route start*/
+    Route::get('ward-commissioner', [WardCommissionerController::class, 'index']);
+    Route::post('ward-commissioner', [WardCommissionerController::class, 'store']);
+    Route::get('ward-commissioner/{id}', [WardCommissionerController::class, 'show']);
+    Route::put('ward-commissioner/{id}', [WardCommissionerController::class, 'update']);
+    Route::delete('ward-commissioner/{id}', [WardCommissionerController::class, 'destroy']);
+    Route::patch('ward-commissioner/status-update/{id}', [WardCommissionerController::class, 'changeStatus']);
+    /*ward commissioner route end*/
 
     /*area demographic route start*/
     Route::get('area-demographic', [AreaDemographicController::class, 'index']);
