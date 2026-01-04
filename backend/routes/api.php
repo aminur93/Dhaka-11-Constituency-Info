@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\AreaDemographicController;
 use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
@@ -48,6 +49,14 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*area demographic route start*/
+    Route::get('area-demographic', [AreaDemographicController::class, 'index']);
+    Route::post('area-demographic', [AreaDemographicController::class, 'store']);
+    Route::get('area-demographic/{id}', [AreaDemographicController::class, 'show']);
+    Route::put('area-demographic/{id}', [AreaDemographicController::class, 'update']);
+    Route::delete('area-demographic/{id}', [AreaDemographicController::class, 'destroy']);
+    /*area demographic route end*/
 
     /*ward route start*/
     Route::get('ward', [WardController::class, 'index']);

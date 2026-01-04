@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicService;
+use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicServiceImpl;
 use App\Http\Services\Api\V1\Admin\District\DistrictService;
 use App\Http\Services\Api\V1\Admin\District\DistrictServiceImpl;
 use App\Http\Services\Api\V1\Admin\Division\DivisionService;
@@ -93,6 +95,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             WardService::class,
             WardServiceImpl::class
+        );
+
+        $this->app->bind(
+            AreaDemographicService::class,
+            AreaDemographicServiceImpl::class
         );
     }
 
