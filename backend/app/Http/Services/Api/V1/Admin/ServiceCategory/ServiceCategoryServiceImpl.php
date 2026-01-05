@@ -55,6 +55,7 @@ class ServiceCategoryServiceImpl implements ServiceCategoryService
 
             $service_category->name_en = $request->name_en;
             $service_category->name_bn = $request->name_bn;
+            $service_category->code = $request->code;
             $service_category->description_en = $request->description_en;
             $service_category->description_bn = $request->description_bn;
 
@@ -110,6 +111,7 @@ class ServiceCategoryServiceImpl implements ServiceCategoryService
 
             $service_category->name_en = $request->name_en ?? $service_category->name_en;
             $service_category->name_bn = $request->name_bn ?? $service_category->name_bn;
+            $service_category->code = $request->code ?? $service_category->code;
             $service_category->description_en = $request->description_en ?? $service_category->description_en;
             $service_category->description_bn = $request->description_bn ?? $service_category->description_bn;
 

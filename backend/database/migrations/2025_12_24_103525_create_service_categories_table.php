@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_en')->nullable();
             $table->string('name_bn')->nullable();
+            $table->enum('code', ['MEDICAL, FINANCIAL, EDUCATION, JOB, LEGAL, DISASTER']);
             $table->longText('description_en')->nullable();
             $table->longText('description_bn')->nullable();
             $table->string('image')->nullable();
