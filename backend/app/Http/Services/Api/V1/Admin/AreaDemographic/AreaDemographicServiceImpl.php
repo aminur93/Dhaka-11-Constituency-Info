@@ -15,7 +15,7 @@ class AreaDemographicServiceImpl implements AreaDemographicService
         $area_demographic = AreaDemographic::with('ward', 'thana', 'user');
 
         // Sorting (secure)
-        $sortableColumns = ['id', 'ward_id', 'thana_id', 'total_population', 'created_at'];
+        $sortableColumns = ['id', 'male_population', 'female_population', 'total_population', 'age_0_18', 'created_at'];
 
         $sortBy = $request->get('sortBy', 'id');
         $sortDesc = $request->get('sortDesc', 'true') === 'true' ? 'desc' : 'asc';

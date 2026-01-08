@@ -10,34 +10,27 @@ use Illuminate\Support\Facades\DB;
 
 class JobServiceImpl implements JobService
 {
-    public function store(Request $request)
+    public function store(array $data, $applicantId)
     {
         DB::beginTransaction();
 
         try {
             
-            $data = $request->only([
-                'request_id',
-                'qualification',
-                'experience_years',
-                'skills',
-                'preferred_sector',
-                'training_interest',
-                'employment_status',
-            ]);
+            // Add request_id to data
+            $data['request_id'] = $applicantId;
 
             // CV file upload
-            if ($request->hasFile('cv_file')) {
+            if (!empty($data['cv_file']) && $data['cv_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('cv_file'),
+                    $data['cv_file'],
                     'cv-file'
                 );
 
-                // DB columns
                 $data['cv_file'] = $imagePath;
                 $data['cv_file_url'] = asset('storage/' . $imagePath);
             }
+
 
             $jobSkill = JobSkillRegistration::create($data);
 
@@ -52,32 +45,25 @@ class JobServiceImpl implements JobService
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(array $data, $applicantId, int $id)
     {
         DB::beginTransaction();
 
         try {
             $jobSkill = JobSkillRegistration::findOrFail($id);
 
-            $data = $request->only([
-                'qualification',
-                'experience_years',
-                'skills',
-                'preferred_sector',
-                'training_interest',
-                'employment_status',
-            ]);
+            $data['request_id'] = $applicantId;
 
             // CV file update
-            if ($request->hasFile('cv_file')) {
+            if (!empty($data['cv_file']) && $data['cv_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 // Delete old file if exists
                 if (!empty($jobSkill->cv_file)) {
                     ImageUpload::deleteApplicationStorage($jobSkill->cv_file);
                 }
-
+                
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('cv_file'),
+                    $data['cv_file'],
                     'cv-file'
                 );
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
+use App\Http\Controllers\Api\V1\Admin\ServiceApplicantController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UnionController;
@@ -49,6 +50,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*service application route start*/
+    Route::get('service-applicant', [ServiceApplicantController::class, 'index']);
+    Route::post('service-applicant', [ServiceApplicantController::class, 'store']);
+    Route::get('service-applicant/{id}', [ServiceApplicantController::class, 'show']);
+    Route::put('service-applicant/{id}', [ServiceApplicantController::class, 'update']);
+    Route::delete('service-applicant/{id}', [ServiceApplicantController::class, 'destroy']);
+    Route::put('service-applicant/status-update/{id}', [ServiceApplicantController::class, 'changeStatus']);
+    /*service application route end*/
 
     /*ward commissioner route start*/
     Route::get('ward-commissioner', [WardCommissionerController::class, 'index']);

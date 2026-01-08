@@ -118,6 +118,66 @@ class ImageUpload
         return $relativePath;
     }
 
+    /**
+     * Upload multiple images
+     *
+     * @param  array|\Illuminate\Http\UploadedFile[]  $images
+     * @param  string|null $folder
+     * @param  int|null $width
+     * @param  int|null $height
+     * @param  string $format
+     * @param  int $quality
+     * @return array  - relative paths of uploaded files
+     */
+    public static function uploadMultipleImagesApplicationStorage(
+        array $images,  // must be array of UploadedFile
+        ?string $folder = null,
+        ?int $width = null,
+        ?int $height = null,
+        string $format = 'png',
+        int $quality = 100
+    ): array {
+        $paths = [];
+
+        foreach ($images as $imageFile) {
+
+            if (!$imageFile instanceof UploadedFile) continue;
+
+            $extension = strtolower($imageFile->getClientOriginalExtension());
+
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
+
+            // Relative path inside storage/app/public
+            $relativePath = $folder ? "{$folder}/{$imageName}" : $imageName;
+
+            // Direct upload for GIF/SVG/WEBP
+            if (in_array($extension, ['gif', 'svg', 'webp'])) {
+                Storage::disk('public')->put($relativePath, file_get_contents($imageFile));
+                $paths[] = $relativePath;
+                continue;
+            }
+
+            // Intervention image
+            $image = ImageManager::gd()->read($imageFile->getRealPath());
+
+            if ($width && $height) {
+                $image->resize($width, $height);
+            }
+
+            $encoder = match ($format) {
+                'jpg', 'jpeg' => new JpegEncoder($quality),
+                'png' => new PngEncoder($quality),
+                default => throw new \InvalidArgumentException("Unsupported format: {$format}"),
+            };
+
+            Storage::disk('public')->put($relativePath, (string) $image->encode($encoder));
+
+            $paths[] = $relativePath;
+        }
+
+        return $paths;
+    }
+
 
     public static function deleteApplicationStorage(?string $path) : bool
     {

@@ -18,7 +18,12 @@ class LegalAidDetails extends Model
         'case_documents_file_url',
     ];
 
-     protected static function booted()
+    public function serviceApplicant()
+    {
+        return $this->belongsTo(ServiceApplicant::class, 'request_id');
+    }
+
+    protected static function booted()
     {
         static::deleting(function ($model) {
             if ($model->case_documents_file) {

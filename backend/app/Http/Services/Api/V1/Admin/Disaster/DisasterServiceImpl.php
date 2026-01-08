@@ -10,31 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class DisasterServiceImpl implements DisasterService
 {
-    public function store(Request $request)
+    public function store(array $data, $applicantId)
     {
         DB::beginTransaction();
 
         try {
-            $data = $request->only([
-                'request_id',
-                'disaster_type',
-                'disaster_date',
-                'loss_type',
-                'estimated_loss',
-                'family_affected',
-                'temporary_shelter_needed',
-                'relief_items_needed',
-            ]);
+             // Add request_id to data
+            $data['request_id'] = $applicantId;
 
             // Damage photo file upload
-            if ($request->hasFile('damage_photo')) {
+            if (!empty($data['damage_photo']) && $data['damage_photo'] instanceof \Illuminate\Http\UploadedFile) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('damage_photo'),
-                    'academic-certificate-image'
+                    $data['damage_photo'],
+                    'damage-image'
                 );
 
-                // DB columns
                 $data['damage_photo'] = $imagePath;
                 $data['damage_photo_url'] = asset('storage/' . $imagePath);
             }
@@ -52,34 +43,26 @@ class DisasterServiceImpl implements DisasterService
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(array $data, $applicantId, int $id)
     {
         DB::beginTransaction();
 
         try {
             $disasterRelief = DisasterReliefDetail::findOrFail($id);
 
-            $data = $request->only([
-                'disaster_type',
-                'disaster_date',
-                'loss_type',
-                'estimated_loss',
-                'family_affected',
-                'temporary_shelter_needed',
-                'relief_items_needed',
-            ]);
+            $data['request_id'] = $applicantId;
 
             // Damage photo file update
-            if ($request->hasFile('damage_photo')) {
+            if (!empty($data['damage_photo']) && $data['damage_photo'] instanceof \Illuminate\Http\UploadedFile) {
 
                 // Delete old file if exists
                 if (!empty($disasterRelief->damage_photo)) {
                     ImageUpload::deleteApplicationStorage($disasterRelief->damage_photo);
                 }
-
+                
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('damage_photo'),
-                    'disaster-damage-photo'
+                    $data['damage_photo'],
+                    'damage-image'
                 );
 
                 $data['damage_photo'] = $imagePath;

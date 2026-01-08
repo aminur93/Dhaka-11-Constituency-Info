@@ -10,32 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class EducationServiceImpl implements EducationService
 {
-    public function store(Request $request)
+    public function store(array $data, $applicantId)
     {
         DB::beginTransaction();
 
         try {
             
-             $data = $request->only([
-                'request_id',
-                'student_name',
-                'student_age',
-                'education_level',
-                'institution_name',
-                'class_year',
-                'gpa_cgpa',
-                'support_type',
-            ]);
+            // Add request_id to data
+            $data['request_id'] = $applicantId;
 
             // Academic certificate file upload
-            if ($request->hasFile('academic_certificate_file')) {
+            if (!empty($data['academic_certificate_file']) && $data['academic_certificate_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('academic_certificate_file'),
+                    $data['academic_certificate_file'],
                     'academic-certificate-image'
                 );
 
-                // DB columns
                 $data['academic_certificate_file'] = $imagePath;
                 $data['academic_certificate_file_url'] = asset('storage/' . $imagePath);
             }
@@ -53,25 +44,17 @@ class EducationServiceImpl implements EducationService
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(array $data, $applicantId, int $id)
     {
         DB::beginTransaction();
 
         try {
             $educationSupport = EducationSupportDetails::findOrFail($id);
 
-            $data = $request->only([
-                'student_name',
-                'student_age',
-                'education_level',
-                'institution_name',
-                'class_year',
-                'gpa_cgpa',
-                'support_type',
-            ]);
+            $data['request_id'] = $applicantId;
 
             // Academic certificate file update
-            if ($request->hasFile('academic_certificate_file')) {
+            if (!empty($data['academic_certificate_file']) && $data['academic_certificate_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 // Delete old file if exists
                 if (!empty($educationSupport->academic_certificate_file)) {
@@ -81,7 +64,7 @@ class EducationServiceImpl implements EducationService
                 }
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('academic_certificate_file'),
+                    $data['academic_certificate_file'],
                     'academic-certificate-image'
                 );
 

@@ -19,6 +19,11 @@ class JobSkillRegistration extends Model
         'cv_file_url',
     ];
 
+    public function serviceApplicant()
+    {
+        return $this->belongsTo(ServiceApplicant::class, 'request_id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($model) {

@@ -4,18 +4,32 @@ namespace App\Providers;
 
 use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicService;
 use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicServiceImpl;
+use App\Http\Services\Api\V1\Admin\Disaster\DisasterService;
+use App\Http\Services\Api\V1\Admin\Disaster\DisasterServiceImpl;
 use App\Http\Services\Api\V1\Admin\District\DistrictService;
 use App\Http\Services\Api\V1\Admin\District\DistrictServiceImpl;
 use App\Http\Services\Api\V1\Admin\Division\DivisionService;
 use App\Http\Services\Api\V1\Admin\Division\DivisionServiceImpl;
+use App\Http\Services\Api\V1\Admin\Education\EducationService;
+use App\Http\Services\Api\V1\Admin\Education\EducationServiceImpl;
+use App\Http\Services\Api\V1\Admin\Financial\FinancialService;
+use App\Http\Services\Api\V1\Admin\Financial\FinancialServiceImpl;
 use App\Http\Services\Api\V1\Admin\Hero\HeroService;
 use App\Http\Services\Api\V1\Admin\Hero\HeroServiceImpl;
+use App\Http\Services\Api\V1\Admin\Job\JobService;
+use App\Http\Services\Api\V1\Admin\Job\JobServiceImpl;
+use App\Http\Services\Api\V1\Admin\LegalAid\LegalAidService;
+use App\Http\Services\Api\V1\Admin\LegalAid\LegalAidServiceImpl;
 use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideService;
 use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideServiceImpl;
+use App\Http\Services\Api\V1\Admin\Medical\MedicalService;
+use App\Http\Services\Api\V1\Admin\Medical\MedicalServiceImpl;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionService;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Role\RoleService;
 use App\Http\Services\Api\V1\Admin\Role\RoleServiceImpl;
+use App\Http\Services\Api\V1\Admin\ServiceApplicant\ServiceApplicantService;
+use App\Http\Services\Api\V1\Admin\ServiceApplicant\ServiceApplicantServiceImpl;
 use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryService;
 use App\Http\Services\Api\V1\Admin\ServiceCategory\ServiceCategoryServiceImpl;
 use App\Http\Services\Api\V1\Admin\Thana\ThanaService;
@@ -107,6 +121,41 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             WardCommissionerService::class,
             WardCommissionerServiceImpl::class
+        );
+
+        $this->app->bind(
+            MedicalService::class,
+            MedicalServiceImpl::class
+        );
+
+        $this->app->bind(
+            FinancialService::class,
+            FinancialServiceImpl::class
+        );
+
+        $this->app->bind(
+            EducationService::class,
+            EducationServiceImpl::class
+        );
+
+        $this->app->bind(
+            JobService::class,
+            JobServiceImpl::class
+        );
+
+        $this->app->bind(
+            LegalAidService::class,
+            LegalAidServiceImpl::class
+        );
+
+        $this->app->bind(
+            DisasterService::class,
+            DisasterServiceImpl::class
+        );
+
+        $this->app->bind(
+            ServiceApplicantService::class,
+            ServiceApplicantServiceImpl::class
         );
     }
 

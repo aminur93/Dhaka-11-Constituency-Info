@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 interface MedicalService
 {
-    public function store(Request $request);
+    public function store(array $data, $applicantId);
 
-    public function update(Request $request, int $id);
+    public function update(array $data, $applicantId, int $id);
 
     public function destroy(int $id);
 }

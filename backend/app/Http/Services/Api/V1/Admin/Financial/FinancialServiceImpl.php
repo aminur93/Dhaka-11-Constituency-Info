@@ -10,31 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class FinancialServiceImpl implements FinancialService
 {
-    public function store(Request $request)
+    public function store(array $data, $applicantId)
     {
         DB::beginTransaction();
 
         try {
 
-            $data = $request->only([
-                'request_id',
-                'aid_purpose',
-                'monthly_income',
-                'family_members',
-                'earning_members',
-                'current_debt',
-                'assets_description',
-            ]);
+            // Add request_id to data
+            $data['request_id'] = $applicantId;
 
             // Income proof file upload
-            if ($request->hasFile('income_proof_file')) {
+            if (!empty($data['income_proof_file']) && $data['income_proof_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('income_proof_file'),
+                    $data['income_proof_file'],
                     'income-proof-image'
                 );
 
-                // DB columns
                 $data['income_proof_file'] = $imagePath;
                 $data['income_proof_file_url'] = asset('storage/' . $imagePath);
             }
@@ -52,7 +44,7 @@ class FinancialServiceImpl implements FinancialService
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(array $data, $applicantId, int $id)
     {
         DB::beginTransaction();
 
@@ -60,17 +52,10 @@ class FinancialServiceImpl implements FinancialService
 
             $financial = FinancialAidDetail::findOrFail($id);
 
-            $data = $request->only([
-                'aid_purpose',
-                'monthly_income',
-                'family_members',
-                'earning_members',
-                'current_debt',
-                'assets_description',
-            ]);
+            $data['request_id'] = $applicantId;
 
             // Income proof file update
-            if ($request->hasFile('income_proof_file')) {
+            if (!empty($data['income_proof_file']) && $data['income_proof_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 // Delete old file if exists
                 if (!empty($financial->income_proof_file)) {
@@ -78,7 +63,7 @@ class FinancialServiceImpl implements FinancialService
                 }
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('income_proof_file'),
+                    $data['income_proof_file'],
                     'income-proof-image'
                 );
 

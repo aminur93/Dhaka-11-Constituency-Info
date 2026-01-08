@@ -20,6 +20,11 @@ class DisasterReliefDetail extends Model
         'damage_photo_url',
     ];
 
+    public function serviceApplicant()
+    {
+        return $this->belongsTo(ServiceApplicant::class, 'request_id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($model) {

@@ -10,30 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class LegalAidServiceImpl implements LegalAidService
 {
-    public function store(Request $request)
+    public function store(array $data, $applicantId)
     {
         DB::beginTransaction();
 
         try {
             
-            $data = $request->only([
-                'request_id',
-                'case_type',
-                'case_number',
-                'court_name',
-                'opponent_party',
-                'case_description',
-            ]);
+            // Add request_id to data
+            $data['request_id'] = $applicantId;
 
             // Case documents file upload
-            if ($request->hasFile('case_documents_file')) {
+            if (!empty($data['case_documents_file']) && $data['case_documents_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('case_documents_file'),
+                    $data['case_documents_file'],
                     'case-documents-file'
                 );
 
-                // DB columns
                 $data['case_documents_file'] = $imagePath;
                 $data['case_documents_file_url'] = asset('storage/' . $imagePath);
             }
@@ -51,23 +44,17 @@ class LegalAidServiceImpl implements LegalAidService
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(array $data, $applicantId, int $id)
     {
         DB::beginTransaction();
 
         try {
             $legalAid = LegalAidDetails::findOrFail($id);
 
-            $data = $request->only([
-                'case_type',
-                'case_number',
-                'court_name',
-                'opponent_party',
-                'case_description',
-            ]);
+            $data['request_id'] = $applicantId;
 
             // Case documents file update
-            if ($request->hasFile('case_documents_file')) {
+            if (!empty($data['case_documents_file']) && $data['case_documents_file'] instanceof \Illuminate\Http\UploadedFile) {
 
                 // Delete old file if exists
                 if (!empty($legalAid->case_documents_file)) {
@@ -75,7 +62,7 @@ class LegalAidServiceImpl implements LegalAidService
                 }
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
-                    $request->file('case_documents_file'),
+                    $data['case_documents_file'],
                     'case-documents-file'
                 );
 

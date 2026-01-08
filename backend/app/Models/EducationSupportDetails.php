@@ -20,6 +20,11 @@ class EducationSupportDetails extends Model
         'academic_certificate_file_url',
     ];
 
+    public function serviceApplicant()
+    {
+        return $this->belongsTo(ServiceApplicant::class, 'request_id');
+    }
+
     protected static function booted()
     {
         static::deleting(function ($model) {
