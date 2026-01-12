@@ -1,5 +1,6 @@
 # A service-based web application for Dhaka-11 constituency
 
+A service-based web application for Dhaka-11 constituency, providing comprehensive information about the elected representative, voter demographics, and civic resources. Built with a modular microservices architecture, it offers RESTful APIs, an interactive dashboard, search and filter functionality, and scalable deployment using Docker and AWS, enabling efficient data management, transparency, and civic engagement.
 ---
 
 ## Live Demo
