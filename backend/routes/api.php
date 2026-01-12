@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UnionController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Admin\volunteerController;
 use App\Http\Controllers\Api\V1\Admin\WardCommissionerController;
 use App\Http\Controllers\Api\V1\Admin\WardController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
@@ -50,6 +51,14 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*volunteer route start*/
+    Route::get('volunteer', [volunteerController::class, 'index']);
+    Route::post('volunteer', [volunteerController::class, 'store']);
+    Route::get('volunteer/{id}', [volunteerController::class, 'show']);
+    Route::put('volunteer/{id}', [volunteerController::class, 'update']);
+    Route::delete('volunteer/{id}', [volunteerController::class, 'destroy']);
+    /*volunteer route end*/
 
     /*service application route start*/
     Route::get('service-applicant', [ServiceApplicantController::class, 'index']);
