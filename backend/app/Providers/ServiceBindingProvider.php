@@ -40,6 +40,10 @@ use App\Http\Services\Api\V1\Admin\User\UserService;
 use App\Http\Services\Api\V1\Admin\User\UserServiceImpl;
 use App\Http\Services\Api\V1\Admin\Volunteer\VolunteerService;
 use App\Http\Services\Api\V1\Admin\Volunteer\VolunteerServiceImpl;
+use App\Http\Services\Api\V1\Admin\VolunteerAreaAssignment\VolunteerAreaAssignmentService;
+use App\Http\Services\Api\V1\Admin\VolunteerAreaAssignment\VolunteerAreaAssignmentServiceImpl;
+use App\Http\Services\Api\V1\Admin\VolunteerTask\VolunteerTaskService;
+use App\Http\Services\Api\V1\Admin\VolunteerTask\VolunteerTaskServiceImpl;
 use App\Http\Services\Api\V1\Admin\Ward\WardService;
 use App\Http\Services\Api\V1\Admin\Ward\WardServiceImpl;
 use App\Http\Services\Api\V1\Admin\WardCommissioner\WardCommissionerService;
@@ -163,6 +167,16 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             VolunteerService::class,
             VolunteerServiceImpl::class
+        );
+
+        $this->app->bind(
+            VolunteerAreaAssignmentService::class,
+            VolunteerAreaAssignmentServiceImpl::class
+        );
+
+        $this->app->bind(
+            VolunteerTaskService::class,
+            VolunteerTaskServiceImpl::class
         );
     }
 

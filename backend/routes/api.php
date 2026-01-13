@@ -12,7 +12,9 @@ use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
 use App\Http\Controllers\Api\V1\Admin\ThanaController;
 use App\Http\Controllers\Api\V1\Admin\UnionController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\Admin\VolunteerAreaAssignmentController;
 use App\Http\Controllers\Api\V1\Admin\volunteerController;
+use App\Http\Controllers\Api\V1\Admin\VolunteerTaskController;
 use App\Http\Controllers\Api\V1\Admin\WardCommissionerController;
 use App\Http\Controllers\Api\V1\Admin\WardController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
@@ -51,6 +53,23 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*volunteer task route start*/
+    Route::get('volunteer-task', [VolunteerTaskController::class, 'index']);
+    Route::post('volunteer-task', [VolunteerTaskController::class, 'store']);
+    Route::get('volunteer-task/{id}', [VolunteerTaskController::class, 'show']);
+    Route::put('volunteer-task/{id}', [VolunteerTaskController::class, 'update']);
+    Route::patch('volunteer-task/change-status/{id}', [VolunteerTaskController::class, 'changeStatus']);
+    Route::delete('volunteer-task/{id}', [VolunteerTaskController::class, 'destroy']);
+    /*volunteer task route end*/
+
+    /*volunteer area assignments route start*/
+    Route::get('volunteer-area-assignment', [VolunteerAreaAssignmentController::class, 'index']);
+    Route::post('volunteer-area-assignment', [VolunteerAreaAssignmentController::class, 'store']);
+    Route::get('volunteer-area-assignment/{id}', [VolunteerAreaAssignmentController::class, 'show']);
+    Route::put('volunteer-area-assignment/{id}', [VolunteerAreaAssignmentController::class, 'update']);
+    Route::delete('volunteer-area-assignment/{id}', [VolunteerAreaAssignmentController::class, 'destroy']);
+    /*volunteer area assignments route end*/
 
     /*volunteer route start*/
     Route::get('volunteer', [volunteerController::class, 'index']);
