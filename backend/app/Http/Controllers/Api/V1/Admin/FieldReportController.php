@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Helper\GlobalResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Admin\HeroRequest;
-use App\Http\Services\Api\V1\Admin\Hero\HeroService;
+use App\Http\Requests\Api\V1\Admin\FieldReportRequest;
+use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -13,13 +13,13 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class HeroController extends Controller
+class FieldReportController extends Controller
 {
-    protected HeroService $heroService;
+    protected FieldReportService $fieldReportService;
 
-    public function __construct(HeroService $heroService)
+    public function __construct(FieldReportService $fieldReportService)
     {
-        $this->heroService = $heroService;
+        $this->fieldReportService = $fieldReportService;
     }
 
     public function index(Request $request)
@@ -28,26 +28,26 @@ class HeroController extends Controller
         $pagination = filter_var($request->get('pagination', true), FILTER_VALIDATE_BOOLEAN);
 
         // Fetch permissions via service
-        $hero = $pagination
-            ? $this->heroService->index($request)
-            : $this->heroService->getAllHeros();
+        $field_reports = $pagination
+            ? $this->fieldReportService->index($request)
+            : $this->fieldReportService->getAllFieldReports();
 
 
 
         // Return unified response
         $message = $pagination
-            ? "All hero fetched successfully with pagination"
-            : "All hero fetched successfully";
+            ? "All field report fetched successfully with pagination"
+            : "All field report fetched successfully";
 
-        return GlobalResponse::success($hero, $message, Response::HTTP_OK);
+        return GlobalResponse::success($field_reports, $message, Response::HTTP_OK);
     }
 
-    public function store(HeroRequest $request)
+    public function store(FieldReportRequest $request)
     {
         try {
-           $hero = $this->heroService->store($request);
+           $field_report = $this->fieldReportService->store($request);
 
-           return GlobalResponse::success($hero, "Hero Store successful", Response::HTTP_CREATED);
+           return GlobalResponse::success($field_report, "Field report Store successful", Response::HTTP_CREATED);
 
         } catch (ValidationException $exception) {
 
@@ -66,13 +66,13 @@ class HeroController extends Controller
     public function show(int $id)
     {
         try {
-            $hero = $this->heroService->show($id);
+            $field_report = $this->fieldReportService->show($id);
 
-            return GlobalResponse::success($hero, "Hero fetched successfully", Response::HTTP_OK);
+            return GlobalResponse::success($field_report, "Field report fetched successfully", Response::HTTP_OK);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Field report not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
 
         } catch (HttpException $exception) {
 
@@ -87,13 +87,13 @@ class HeroController extends Controller
     public function update(Request $request, int $id)
     {
         try {
-            $hero = $this->heroService->update($request, $id);
+            $field_report = $this->fieldReportService->update($request, $id);
 
-            return GlobalResponse::success($hero, "Hero updated successfully", Response::HTTP_OK);
+            return GlobalResponse::success($field_report, "Field report updated successfully", Response::HTTP_OK);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Field report not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
 
         } catch (ValidationException $exception) {
 
@@ -112,33 +112,13 @@ class HeroController extends Controller
     public function destroy(int $id)
     {
         try {
-            $this->heroService->destroy($id);
+            $this->fieldReportService->destroy($id);
 
-            return GlobalResponse::success(null, "Hero deleted successfully", Response::HTTP_NO_CONTENT);
-
-        } catch (ModelNotFoundException $exception){
-
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
-        } catch (HttpException $exception) {
-
-            return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-
-        } catch (Exception $exception) {
-
-            return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public function statusUpdate(int $id)
-    {
-        try {
-            $hero = $this->heroService->statusUpdate($id);
-
-            return GlobalResponse::success($hero, "Hero status updated successfully", Response::HTTP_OK);
+            return GlobalResponse::success(null, "Field report deleted successfully", Response::HTTP_NO_CONTENT);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Field report not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
             
         } catch (HttpException $exception) {
 
@@ -149,5 +129,4 @@ class HeroController extends Controller
             return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 }

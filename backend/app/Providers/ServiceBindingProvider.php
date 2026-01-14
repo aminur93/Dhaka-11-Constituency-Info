@@ -12,6 +12,8 @@ use App\Http\Services\Api\V1\Admin\Division\DivisionService;
 use App\Http\Services\Api\V1\Admin\Division\DivisionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Education\EducationService;
 use App\Http\Services\Api\V1\Admin\Education\EducationServiceImpl;
+use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportService;
+use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportServiceImpl;
 use App\Http\Services\Api\V1\Admin\Financial\FinancialService;
 use App\Http\Services\Api\V1\Admin\Financial\FinancialServiceImpl;
 use App\Http\Services\Api\V1\Admin\Hero\HeroService;
@@ -177,6 +179,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             VolunteerTaskService::class,
             VolunteerTaskServiceImpl::class
+        );
+
+        $this->app->bind(
+            FieldReportService::class,
+            FieldReportServiceImpl::class
         );
     }
 

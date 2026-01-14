@@ -64,7 +64,7 @@ class HeroServiceImpl implements HeroService
             $hero->description_bn = $request->description_bn;
 
             // Image upload
-             if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
 
                 $imagePath = ImageUpload::uploadImageApplicationStorage(
                     $request->file('image'),

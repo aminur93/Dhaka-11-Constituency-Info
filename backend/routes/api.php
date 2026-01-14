@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Admin\AreaDemographicController;
 use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
+use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
@@ -53,6 +54,14 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*field report route start*/
+    Route::get('field-report', [FieldReportController::class, 'index']);
+    Route::post('field-report', [FieldReportController::class, 'store']);
+    Route::get('field-report/{id}', [FieldReportController::class, 'show']);
+    Route::put('field-report/{id}', [FieldReportController::class, 'update']);
+    Route::delete('field-report/{id}', [FieldReportController::class, 'destroy']);
+    /*field report route end*/
 
     /*volunteer task route start*/
     Route::get('volunteer-task', [VolunteerTaskController::class, 'index']);
