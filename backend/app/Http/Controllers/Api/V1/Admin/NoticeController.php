@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Helper\GlobalResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Admin\HeroRequest;
-use App\Http\Services\Api\V1\Admin\Hero\HeroService;
+use App\Http\Requests\Api\V1\Admin\NoticeRequest;
+use App\Http\Services\Api\V1\Admin\Notice\NoticeService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -13,13 +13,13 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class HeroController extends Controller
+class NoticeController extends Controller
 {
-    protected HeroService $heroService;
+    protected NoticeService $noticeService;
 
-    public function __construct(HeroService $heroService)
+    public function __construct(NoticeService $noticeService)
     {
-        $this->heroService = $heroService;
+        $this->noticeService = $noticeService;
     }
 
     public function index(Request $request)
@@ -27,27 +27,27 @@ class HeroController extends Controller
         //Convert pagination query to boolean
         $pagination = filter_var($request->get('pagination', true), FILTER_VALIDATE_BOOLEAN);
 
-        // Fetch hero via service
-        $hero = $pagination
-            ? $this->heroService->index($request)
-            : $this->heroService->getAllHeros();
+        // Fetch notice via service
+        $notice = $pagination
+            ? $this->noticeService->index($request)
+            : $this->noticeService->getAllNotices();
 
 
 
         // Return unified response
         $message = $pagination
-            ? "All hero fetched successfully with pagination"
-            : "All hero fetched successfully";
+            ? "All notice fetched successfully with pagination"
+            : "All notice fetched successfully";
 
-        return GlobalResponse::success($hero, $message, Response::HTTP_OK);
+        return GlobalResponse::success($notice, $message, Response::HTTP_OK);
     }
 
-    public function store(HeroRequest $request)
+    public function store(NoticeRequest $request)
     {
         try {
-           $hero = $this->heroService->store($request);
+           $notice = $this->noticeService->store($request);
 
-           return GlobalResponse::success($hero, "Hero Store successful", Response::HTTP_CREATED);
+           return GlobalResponse::success($notice, "Notice Store successful", Response::HTTP_CREATED);
 
         } catch (ValidationException $exception) {
 
@@ -66,13 +66,13 @@ class HeroController extends Controller
     public function show(int $id)
     {
         try {
-            $hero = $this->heroService->show($id);
+            $notice = $this->noticeService->show($id);
 
-            return GlobalResponse::success($hero, "Hero fetched successfully", Response::HTTP_OK);
+            return GlobalResponse::success($notice, "Notice fetched successfully", Response::HTTP_OK);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Notice not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
 
         } catch (HttpException $exception) {
 
@@ -87,13 +87,13 @@ class HeroController extends Controller
     public function update(Request $request, int $id)
     {
         try {
-            $hero = $this->heroService->update($request, $id);
+            $notice = $this->noticeService->update($request, $id);
 
-            return GlobalResponse::success($hero, "Hero updated successfully", Response::HTTP_OK);
+            return GlobalResponse::success($notice, "Notice updated successfully", Response::HTTP_OK);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Notice not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
 
         } catch (ValidationException $exception) {
 
@@ -112,13 +112,13 @@ class HeroController extends Controller
     public function destroy(int $id)
     {
         try {
-            $this->heroService->destroy($id);
+            $this->noticeService->destroy($id);
 
-            return GlobalResponse::success(null, "Hero deleted successfully", Response::HTTP_NO_CONTENT);
+            return GlobalResponse::success(null, "Notice deleted successfully", Response::HTTP_NO_CONTENT);
 
         } catch (ModelNotFoundException $exception){
 
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
+            return GlobalResponse::error("Notice not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
@@ -128,26 +128,4 @@ class HeroController extends Controller
             return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-    public function statusUpdate(int $id)
-    {
-        try {
-            $hero = $this->heroService->statusUpdate($id);
-
-            return GlobalResponse::success($hero, "Hero status updated successfully", Response::HTTP_OK);
-
-        } catch (ModelNotFoundException $exception){
-
-            return GlobalResponse::error("Hero not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
-            
-        } catch (HttpException $exception) {
-
-            return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-
-        } catch (Exception $exception) {
-
-            return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }

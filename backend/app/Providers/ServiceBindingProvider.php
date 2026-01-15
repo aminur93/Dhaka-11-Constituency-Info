@@ -26,6 +26,8 @@ use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideService;
 use App\Http\Services\Api\V1\Admin\LogoBannerSlider\LogoBannerSlideServiceImpl;
 use App\Http\Services\Api\V1\Admin\Medical\MedicalService;
 use App\Http\Services\Api\V1\Admin\Medical\MedicalServiceImpl;
+use App\Http\Services\Api\V1\Admin\Notice\NoticeService;
+use App\Http\Services\Api\V1\Admin\Notice\NoticeServiceImpl;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionService;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Role\RoleService;
@@ -184,6 +186,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             FieldReportService::class,
             FieldReportServiceImpl::class
+        );
+
+        $this->app->bind(
+            NoticeService::class,
+            NoticeServiceImpl::class
         );
     }
 

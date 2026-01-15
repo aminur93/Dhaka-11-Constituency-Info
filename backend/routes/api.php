@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
+use App\Http\Controllers\Api\V1\Admin\NoticeController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceApplicantController;
@@ -54,6 +55,14 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*notice route start*/
+    Route::get('notice', [NoticeController::class, 'index']);
+    Route::post('notice', [NoticeController::class, 'store']);
+    Route::get('notice/{id}', [NoticeController::class, 'show']);
+    Route::put('notice/{id}', [NoticeController::class, 'update']);
+    Route::delete('notice/{id}', [NoticeController::class, 'destroy']);
+    /*notice route end*/
 
     /*field report route start*/
     Route::get('field-report', [FieldReportController::class, 'index']);
