@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Admin\AreaDemographicController;
 use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
+use App\Http\Controllers\Api\V1\Admin\EventController;
 use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
@@ -55,6 +56,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*event route start*/
+    Route::get('event', [EventController::class, 'index']);
+    Route::post('event', [EventController::class, 'store']);
+    Route::get('event/{id}', [EventController::class, 'show']);
+    Route::put('event/{id}', [EventController::class, 'update']);
+    Route::delete('event/{id}', [EventController::class, 'destroy']);
+    Route::patch('event/change-status/{id}', [EventController::class, 'changeStatus']);
+    /*event route end*/
 
     /*notice route start*/
     Route::get('notice', [NoticeController::class, 'index']);

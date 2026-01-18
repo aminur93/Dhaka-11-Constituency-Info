@@ -12,6 +12,8 @@ use App\Http\Services\Api\V1\Admin\Division\DivisionService;
 use App\Http\Services\Api\V1\Admin\Division\DivisionServiceImpl;
 use App\Http\Services\Api\V1\Admin\Education\EducationService;
 use App\Http\Services\Api\V1\Admin\Education\EducationServiceImpl;
+use App\Http\Services\Api\V1\Admin\Event\EventService;
+use App\Http\Services\Api\V1\Admin\Event\EventServiceImpl;
 use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportService;
 use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportServiceImpl;
 use App\Http\Services\Api\V1\Admin\Financial\FinancialService;
@@ -191,6 +193,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             NoticeService::class,
             NoticeServiceImpl::class
+        );
+
+        $this->app->bind(
+            EventService::class,
+            EventServiceImpl::class
         );
     }
 
