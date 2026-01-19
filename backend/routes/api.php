@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Admin\AreaDemographicController;
 use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\EventController;
+use App\Http\Controllers\Api\V1\Admin\EventRegistrationController;
 use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
@@ -56,6 +57,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*Event registration route start*/
+    Route::get('event-registration', [EventRegistrationController::class, 'index']);
+    Route::post('event-registration', [EventRegistrationController::class, 'store']);
+    Route::get('event-registration/{id}', [EventRegistrationController::class, 'show']);
+    Route::put('event-registration/{id}', [EventRegistrationController::class, 'update']);
+    Route::patch('event-registration/{id}', [EventRegistrationController::class, 'changeStatus']);
+    Route::delete('event-registration/{id}', [EventRegistrationController::class, 'destroy']);
+    /*Event registration route end*/
 
     /*event route start*/
     Route::get('event', [EventController::class, 'index']);

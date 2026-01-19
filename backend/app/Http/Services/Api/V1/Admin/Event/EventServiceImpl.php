@@ -15,7 +15,7 @@ class EventServiceImpl implements EventService
     {
         $event = Event::with('ward', 'thana', 'organizer', 'createdBy');
 
-         // Sorting (secure)
+        // Sorting (secure)
         $sortableColumns = ['id', 'event_number',  'created_at'];
 
         $sortBy = $request->get('sortBy', 'id');
