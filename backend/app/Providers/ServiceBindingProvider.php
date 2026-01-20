@@ -34,6 +34,8 @@ use App\Http\Services\Api\V1\Admin\Notice\NoticeService;
 use App\Http\Services\Api\V1\Admin\Notice\NoticeServiceImpl;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionService;
 use App\Http\Services\Api\V1\Admin\Permission\PermissionServiceImpl;
+use App\Http\Services\Api\V1\Admin\Poll\PollService;
+use App\Http\Services\Api\V1\Admin\Poll\PollServiceImpl;
 use App\Http\Services\Api\V1\Admin\Role\RoleService;
 use App\Http\Services\Api\V1\Admin\Role\RoleServiceImpl;
 use App\Http\Services\Api\V1\Admin\ServiceApplicant\ServiceApplicantService;
@@ -205,6 +207,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             EventRegistrationService::class,
             EventRegistrationServiceImpl::class
+        );
+
+        $this->app->bind(
+            PollService::class,
+            PollServiceImpl::class
         );
     }
 

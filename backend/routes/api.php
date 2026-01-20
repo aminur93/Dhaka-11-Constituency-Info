@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\NoticeController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
+use App\Http\Controllers\Api\V1\Admin\PollController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceApplicantController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
@@ -57,6 +58,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*poll route start*/
+    Route::get('poll', [PollController::class, 'index']);
+    Route::post('poll', [PollController::class, 'store']);
+    Route::get('poll/{id}', [PollController::class, 'show']);
+    Route::put('poll/{id}', [PollController::class, 'update']);
+    Route::patch('poll/{id}', [PollController::class, 'changeStatus']);
+    Route::delete('poll/{id}', [PollController::class, 'destroy']);
+    /*poll route end*/
 
     /*Event registration route start*/
     Route::get('event-registration', [EventRegistrationController::class, 'index']);
