@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\NoticeController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\PollController;
+use App\Http\Controllers\Api\V1\Admin\PollOptionController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceApplicantController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
@@ -58,6 +59,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*poll option route start*/
+    Route::get('poll-option', [PollOptionController::class, 'index']);
+    Route::post('poll-option', [PollOptionController::class, 'store']);
+    Route::get('poll-option/{id}', [PollOptionController::class, 'show']);
+    Route::put('poll-option/{id}', [PollOptionController::class, 'update']);
+    Route::patch('poll-option/{id}', [PollOptionController::class, 'changeStatus']);
+    Route::delete('poll-option/{id}', [PollOptionController::class, 'destroy']);
+    /*poll option route end*/
 
     /*poll route start*/
     Route::get('poll', [PollController::class, 'index']);

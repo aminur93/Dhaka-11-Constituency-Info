@@ -14,7 +14,7 @@ class PollServiceImpl implements PollService
     {
         $poll = Poll::with('ward', 'thana', 'createdBy', 'updatedBy');
 
-         // Sorting (secure)
+        // Sorting (secure)
         $sortableColumns = ['id', 'title_en', 'title_bn', 'poll_type', 'start_date', 'end_date', 'created_at'];
 
         $sortBy = $request->get('sortBy', 'id');
@@ -145,6 +145,8 @@ class PollServiceImpl implements PollService
             $poll->end_date = $request->has('end_date')
                 ? $request->end_date
                 : $poll->end_date;
+
+             $poll->updated_by = Auth::id() ?? null;
 
             $poll->save();
 
