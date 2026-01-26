@@ -66,7 +66,7 @@ class PollOptionController extends Controller
 
     public function show(int $id)
     {
-         try {
+        try {
 
             $poll_option = $this->pollOptionService->show($id);
 

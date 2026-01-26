@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Admin\NoticeController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
 use App\Http\Controllers\Api\V1\Admin\PollController;
 use App\Http\Controllers\Api\V1\Admin\PollOptionController;
+use App\Http\Controllers\Api\V1\Admin\PollVoteController;
 use App\Http\Controllers\Api\V1\Admin\RoleController;
 use App\Http\Controllers\Api\V1\Admin\ServiceApplicantController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCategoryController;
@@ -59,6 +60,13 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*poll vote route start*/
+    Route::get('poll-vote', [PollVoteController::class, 'index']);
+    Route::get('poll-vote/{id}', [PollVoteController::class, 'show']);
+    Route::put('poll-vote/{id}', [PollVoteController::class, 'update']);
+    Route::delete('poll-vote/{id}', [PollVoteController::class, 'destroy']);
+    /*poll vote route end*/
 
     /*poll option route start*/
     Route::get('poll-option', [PollOptionController::class, 'index']);
@@ -260,7 +268,18 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], functio
     Route::delete('permission/{id}', [PermissionController::class, 'destroy']);
     /*user management -> permission route end*/
 });
-
 /**
  * Admin api route end
+*/
+
+/**
+ * public api route start
+*/
+Route::group(['prefix' => 'v1/public'], function() {
+    /*poll vote route start*/
+    Route::post('poll-vote', [PollVoteController::class, 'store']);
+    /*poll vote route end*/
+});
+/**
+ * public api route end
 */

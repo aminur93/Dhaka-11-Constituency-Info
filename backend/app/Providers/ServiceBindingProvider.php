@@ -38,6 +38,8 @@ use App\Http\Services\Api\V1\Admin\Poll\PollService;
 use App\Http\Services\Api\V1\Admin\Poll\PollServiceImpl;
 use App\Http\Services\Api\V1\Admin\PollOption\PollOptionService;
 use App\Http\Services\Api\V1\Admin\PollOption\PollOptionServiceImpl;
+use App\Http\Services\Api\V1\Admin\PollVote\PollVoteService;
+use App\Http\Services\Api\V1\Admin\PollVote\PollVoteServiceImpl;
 use App\Http\Services\Api\V1\Admin\Role\RoleService;
 use App\Http\Services\Api\V1\Admin\Role\RoleServiceImpl;
 use App\Http\Services\Api\V1\Admin\ServiceApplicant\ServiceApplicantService;
@@ -219,6 +221,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             PollOptionService::class,
             PollOptionServiceImpl::class
+        );
+
+        $this->app->bind(
+            PollVoteService::class,
+            PollVoteServiceImpl::class
         );
     }
 
