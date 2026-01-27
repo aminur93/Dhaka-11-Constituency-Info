@@ -47,7 +47,7 @@ class RoleServiceImpl implements RoleService
 
         $roles = Role::with('permissions');
 
-         // Sorting (secure)
+        // Sorting (secure)
         $sortableColumns = ['id', 'name', 'level', 'created_at'];
 
         $sortBy = $request->get('sortBy', 'id');

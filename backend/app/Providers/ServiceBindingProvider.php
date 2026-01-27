@@ -16,6 +16,8 @@ use App\Http\Services\Api\V1\Admin\Event\EventService;
 use App\Http\Services\Api\V1\Admin\Event\EventServiceImpl;
 use App\Http\Services\Api\V1\Admin\EventRegistration\EventRegistrationService;
 use App\Http\Services\Api\V1\Admin\EventRegistration\EventRegistrationServiceImpl;
+use App\Http\Services\Api\V1\Admin\Faq\FaqService;
+use App\Http\Services\Api\V1\Admin\Faq\FaqServiceImpl;
 use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportService;
 use App\Http\Services\Api\V1\Admin\FieldReport\FieldReportServiceImpl;
 use App\Http\Services\Api\V1\Admin\Financial\FinancialService;
@@ -226,6 +228,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             PollVoteService::class,
             PollVoteServiceImpl::class
+        );
+
+        $this->app->bind(
+            FaqService::class,
+            FaqServiceImpl::class
         );
     }
 

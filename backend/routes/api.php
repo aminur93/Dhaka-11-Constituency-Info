@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\EventController;
 use App\Http\Controllers\Api\V1\Admin\EventRegistrationController;
+use App\Http\Controllers\Api\V1\Admin\FaqController;
 use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
@@ -60,6 +61,15 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*faq route start*/
+    Route::get('faq', [FaqController::class, 'index']);
+    Route::post('faq', [FaqController::class, 'store']);
+    Route::get('faq/{id}', [FaqController::class, 'show']);
+    Route::put('faq/{id}', [FaqController::class, 'update']);
+    Route::delete('faq/{id}', [FaqController::class, 'destroy']);
+    Route::patch('faq/{id}', [FaqController::class, 'changeStatus']);
+    /*faq route end*/
 
     /*poll vote route start*/
     Route::get('poll-vote', [PollVoteController::class, 'index']);
@@ -279,6 +289,11 @@ Route::group(['prefix' => 'v1/public'], function() {
     /*poll vote route start*/
     Route::post('poll-vote', [PollVoteController::class, 'store']);
     /*poll vote route end*/
+
+    /*faq route start*/
+    Route::get('faq', [FaqController::class, 'index']);
+    Route::post('faq/view/{id}', [FaqController::class, 'viewCount']);
+    /*faq route end*/
 });
 /**
  * public api route end
