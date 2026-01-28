@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Admin\AreaDemographicController;
+use App\Http\Controllers\Api\V1\Admin\AreaIssueController;
 use App\Http\Controllers\Api\V1\Admin\DistrictController;
 use App\Http\Controllers\Api\V1\Admin\DivisionController;
 use App\Http\Controllers\Api\V1\Admin\EventController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\V1\Admin\EventRegistrationController;
 use App\Http\Controllers\Api\V1\Admin\FaqController;
 use App\Http\Controllers\Api\V1\Admin\FieldReportController;
 use App\Http\Controllers\Api\V1\Admin\HeroController;
+use App\Http\Controllers\Api\V1\Admin\IssueCategoryController;
 use App\Http\Controllers\Api\V1\Admin\LogoBannerSlideController;
 use App\Http\Controllers\Api\V1\Admin\NoticeController;
 use App\Http\Controllers\Api\V1\Admin\PermissionController;
@@ -61,6 +63,25 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
  * Admin api route start
 */
 Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+
+    /*area issue route start*/
+    Route::get('area-issue', [AreaIssueController::class, 'index']);
+    Route::post('area-issue', [AreaIssueController::class, 'store']);
+    Route::get('area-issue/{id}', [AreaIssueController::class, 'show']);
+    Route::put('area-issue/{id}', [AreaIssueController::class, 'update']);
+    Route::delete('area-issue/{id}', [AreaIssueController::class, 'destroy']);
+    Route::post('area-issue/bulk-destroy', [AreaIssueController::class, 'bulkDestroy']);
+    Route::patch('area-issue/change-status/{id}', [AreaIssueController::class, 'changeStatus']);
+    /*area issue route end*/
+
+    /*issue category route start*/
+    Route::get('issue-category', [IssueCategoryController::class, 'index']);
+    Route::post('issue-category', [IssueCategoryController::class, 'store']);
+    Route::get('issue-category/{id}', [IssueCategoryController::class, 'show']);
+    Route::put('issue-category/{id}', [IssueCategoryController::class, 'update']);
+    Route::patch('issue-category/{id}', [IssueCategoryController::class, 'changeStatus']);
+    Route::delete('issue-category/{id}', [IssueCategoryController::class, 'destroy']);
+    /*issue category route end*/
 
     /*faq route start*/
     Route::get('faq', [FaqController::class, 'index']);
@@ -294,6 +315,10 @@ Route::group(['prefix' => 'v1/public'], function() {
     Route::get('faq', [FaqController::class, 'index']);
     Route::post('faq/view/{id}', [FaqController::class, 'viewCount']);
     /*faq route end*/
+
+    /*area issue route start*/
+    Route::post('area-issue', [AreaIssueController::class, 'store']);
+    /*area issue route end*/
 });
 /**
  * public api route end

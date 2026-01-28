@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicService;
 use App\Http\Services\Api\V1\Admin\AreaDemographic\AreaDemographicServiceImpl;
+use App\Http\Services\Api\V1\Admin\AreaIssue\AreaIssueService;
+use App\Http\Services\Api\V1\Admin\AreaIssue\AreaIssueServiceImpl;
 use App\Http\Services\Api\V1\Admin\Disaster\DisasterService;
 use App\Http\Services\Api\V1\Admin\Disaster\DisasterServiceImpl;
 use App\Http\Services\Api\V1\Admin\District\DistrictService;
@@ -24,6 +26,8 @@ use App\Http\Services\Api\V1\Admin\Financial\FinancialService;
 use App\Http\Services\Api\V1\Admin\Financial\FinancialServiceImpl;
 use App\Http\Services\Api\V1\Admin\Hero\HeroService;
 use App\Http\Services\Api\V1\Admin\Hero\HeroServiceImpl;
+use App\Http\Services\Api\V1\Admin\IssueCategory\IssueCategoryService;
+use App\Http\Services\Api\V1\Admin\IssueCategory\IssueCategoryServiceImpl;
 use App\Http\Services\Api\V1\Admin\Job\JobService;
 use App\Http\Services\Api\V1\Admin\Job\JobServiceImpl;
 use App\Http\Services\Api\V1\Admin\LegalAid\LegalAidService;
@@ -233,6 +237,16 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             FaqService::class,
             FaqServiceImpl::class
+        );
+
+        $this->app->bind(
+            IssueCategoryService::class,
+            IssueCategoryServiceImpl::class
+        );
+
+        $this->app->bind(
+            AreaIssueService::class,
+            AreaIssueServiceImpl::class
         );
     }
 
