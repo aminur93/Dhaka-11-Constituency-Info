@@ -7,6 +7,7 @@ use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class WardServiceImpl implements WardService
 {
@@ -44,6 +45,11 @@ class WardServiceImpl implements WardService
     public function getAllWards()
     {
         $wards = Ward::with('thana', 'union', 'user')->where('is_active', true)->get();
+
+        if ($wards->isEmpty())
+        {
+            throw new HttpException(422, 'No wards found');
+        }
 
         return WardResource::collection($wards);
     }

@@ -118,6 +118,10 @@ class ServiceApplicantServiceImpl implements ServiceApplicantService
                     ->latest()
                     ->get();
 
+        if($service_application->isEmpty()) {
+            throw new HttpException(404, 'No service applicants found');
+        }
+
         return ServiceApplicantResource::collection($service_application);
     }
 
