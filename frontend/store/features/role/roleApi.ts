@@ -1,5 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { config } from "@/constants/config";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { customBaseQuery } from "@/store/baseQuery";
 import type {
     Role,

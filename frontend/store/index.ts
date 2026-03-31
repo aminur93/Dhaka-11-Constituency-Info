@@ -4,11 +4,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
 import userReducer from "./features/user/userSlice";
 import roleReducer from "./features/role/roleSlice";
+import permissionReducer from "./features/permission/permissionSlice";
 
 // APIs
 import { authApi } from "./features/auth/authApi";
 import { userApi } from "./features/user/userApi";
 import { roleApi } from "./features/role/roleApi";
+import { permissionApi } from "./features/permission/permissionApi";
 
 export const store = configureStore({
     reducer: {
@@ -16,16 +18,19 @@ export const store = configureStore({
         auth: authReducer,
         user: userReducer,
         role: roleReducer,
+        permission: permissionReducer,
 
         // APIs
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [roleApi.reducerPath]: roleApi.reducer,
+        [permissionApi.reducerPath]: permissionApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware, 
         userApi.middleware, 
-        roleApi.middleware
+        roleApi.middleware,
+        permissionApi.middleware
     ),
 });
 
