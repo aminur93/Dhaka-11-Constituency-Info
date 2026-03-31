@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  postgresdb:
+    image: postgres:16
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sms
+    networks:
+      - web-app-net
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - web-app-net
+    depends_on:
+      - postgresdb
+    restart: always
+
+volumes:
+  postgres_volume:
+
+networks:
+  web-app-net:
+    name: web-app-net
+    driver: bridge

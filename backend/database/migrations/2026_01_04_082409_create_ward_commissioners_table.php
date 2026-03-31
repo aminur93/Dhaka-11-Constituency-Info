@@ -37,8 +37,7 @@ return new class extends Migration
 
             $table->integer('election_year')->nullable();
 
-            $table->tinyInteger('status', 20)->default(1)
-                ->comment('active=1, inactive=0, resigned=2, terminated=3');
+            $table->smallInteger('status')->default(1)->comment('1=active, 0=inactive, 2=resigned, 3=terminated');
 
             $table->boolean('is_current')->default(true);
             $table->integer('created_by')->nullable();

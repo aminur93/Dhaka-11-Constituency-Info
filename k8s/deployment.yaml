@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sms-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sms-service
+  template:
+    metadata:
+      labels:
+        app: sms-service
+    spec:
+      containers:
+        - name: sms
+          image: aminur93/service-management-system:sms-backend-service-1.0.0
+          imagePullPolicy: Never   # Force local image use
+          ports:
+            - containerPort: 8000
+          env:                     # ← Environment variables
+            - name: DB_CONNECTION
+              value: pgsql
+            - name: DB_HOST
+              value: host.minikube.internal
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_DATABASE
+              value: sms
+            - name: DB_USERNAME
+              value: postgres
+            - name: DB_PASSWORD
+              value: password
+          resources:                # ← এখানে add করো
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 3

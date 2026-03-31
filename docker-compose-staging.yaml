@@ -1,0 +1,39 @@
+version: "3.8"
+
+networks:
+  web-app-net:
+    name: web-app-net
+    driver: bridge
+
+services:
+  backend:
+    image: backend-service:1.0
+    build:
+      context: ./backend
+      target: php
+      dockerfile: Dockerfile
+      args:
+        - APP_ENV=${APP_ENV}
+    restart: unless-stopped
+    environment:
+      - APP_ENV=${APP_ENV}
+      - DB_HOST=postgresdb
+      - DB_PORT=5432
+      - DB_DATABASE=sms
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+    ports:
+      - 8000:8000
+    networks:
+      - web-app-net
+
+  # frontend:
+  #   image: frontend-service:1.0
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - web-app-net
+##End of Scripts
