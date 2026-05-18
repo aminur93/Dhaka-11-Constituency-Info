@@ -17,18 +17,18 @@ export const roleApi = createApi({
 
     endpoints: (builder) => ({
         getRole: builder.query<PaginatedResponse<Role> | ApiSingleResponse<Role>, { page?: number; pagination?: boolean }>({
-            query: ({ page = 1, pagination = true } = {}) => pagination ? `/v1/admin/roles?page=${page}` : `/v1/admin/roles?pagination=false`,
+            query: ({ page = 1, pagination = true } = {}) => pagination ? `/v1/admin/role?page=${page}` : `/v1/admin/role?pagination=false`,
             providesTags: ["Role"],
         }),
 
         getRoleById: builder.query<ApiSingleResponse<Role>, number>({
-            query: (id) => `/v1/admin/roles/${id}`,
+            query: (id) => `/v1/admin/role/${id}`,
             providesTags: ["Role"],
         }),
 
         createRole: builder.mutation<ApiSingleResponse<Role>, CreateRoleRequest>({
             query: (data) => ({
-                url: "v1/admin/roles",
+                url: "v1/admin/role",
                 method: "POST",
                 body: data,
             }),
@@ -37,7 +37,7 @@ export const roleApi = createApi({
 
         updateRole: builder.mutation<ApiSingleResponse<Role>, { id: number; data: UpdateRoleRequest}> ({
             query: ({id, data}) => ({
-                url: `v1/admin/roles/${id}`,
+                url: `v1/admin/role/${id}`,
                 method: "PUT",
                 body: data,
             }),
@@ -46,7 +46,7 @@ export const roleApi = createApi({
 
         deleteRole: builder.mutation<ApiSingleResponse<null>, number>({
             query: (id) => ({
-                url: `v1/admin/roles/${id}`,
+                url: `v1/admin/role/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Role"],

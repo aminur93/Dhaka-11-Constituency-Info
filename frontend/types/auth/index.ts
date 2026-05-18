@@ -12,11 +12,15 @@ export interface AuthState {
 }
 
 export interface LoginRequest {
-    email: string;
+    login: string;  // → ✅ login
     password: string;
 }
 
 export interface LoginResponse {
     user: AuthUser;
-    token: string;
+    access_token: string;  // → ✅ access_token
+    refresh_token: string;
+    token_type: string;
+    expires_in: number;
+    refresh_expires_in: number;
 }

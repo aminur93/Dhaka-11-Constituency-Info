@@ -6,9 +6,10 @@ export interface User {
     email: string;
     phone: string;
     image: string;
+    image_url: string;
     user_type: string;
     password: string;
-    role: Role;
+    roles: Role;
 }
 
 export interface CreateUserRequest {

@@ -17,18 +17,21 @@ export const permissionApi = createApi({
 
     endpoints: (builder) => ({
         getPermission: builder.query<PaginatedResponse<Permission> | ApiSingleResponse<Permission>, { page?: number; pagination?: boolean }>({
-            query: ({ page = 1, pagination = true } = {}) => pagination ? `/v1/admin/permissions?page=${page}` : `/v1/admin/permissions?pagination=false`,
+            query: ({ page = 1, pagination = true } = {}) =>
+                    pagination
+                        ? `/v1/admin/permission?page=${page}`
+                        : `/v1/admin/permission?pagination=false`,
             providesTags: ["Permission"],
         }),
 
         getPermissionById: builder.query<ApiSingleResponse<Permission>, number>({
-            query: (id) => `/v1/admin/permissions/${id}`,
+            query: (id) => `/v1/admin/permission/${id}`,
             providesTags: ["Permission"],
         }),
 
         createPermission: builder.mutation<ApiSingleResponse<Permission>, CreatePermissionRequest>({
             query: (data) => ({
-                url: "v1/admin/permissions",
+                url: "v1/admin/permission",
                 method: "POST",
                 body: data,
             }),
@@ -37,7 +40,7 @@ export const permissionApi = createApi({
 
         updatePermission: builder.mutation<ApiSingleResponse<Permission>, { id: number; data: UpdatePermissionRequest}> ({
             query: ({id, data}) => ({
-                url: `v1/admin/permissions/${id}`,
+                url: `v1/admin/permission/${id}`,
                 method: "PUT",
                 body: data,
             }),
@@ -46,7 +49,7 @@ export const permissionApi = createApi({
 
         deletePermission: builder.mutation<ApiSingleResponse<null>, number>({
             query: (id) => ({
-                url: `v1/admin/permissions/${id}`,
+                url: `v1/admin/permission/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Permission"],

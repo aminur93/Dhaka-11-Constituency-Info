@@ -22,18 +22,18 @@ export const userApi = createApi({
         getUser: builder.query<
             PaginatedResponse<User> | ApiSingleResponse<User>, { page?: number; pagination?: boolean }
         >({
-            query: ({ page = 1, pagination = true } = {}) => pagination ? `/v1/admin/users?page=${page}` : `/v1/admin/users?pagination=false`,
+            query: ({ page = 1, pagination = true } = {}) => pagination ? `/v1/admin/user?page=${page}` : `/v1/admin/user?pagination=false`,
             providesTags: ["User"],
         }),
 
         getUserById: builder.query<ApiSingleResponse<User>, number>({
-            query: (id) => `/v1/admin/users/${id}`,
+            query: (id) => `/v1/admin/user/${id}`,
             providesTags: ["User"],
         }),
 
         createUser: builder.mutation<ApiSingleResponse<User>, CreateUserRequest>({
             query: (data) => ({
-                url: "/v1/admin/users",
+                url: "/v1/admin/user",
                 method: "POST",
                 body: data,
             }),
@@ -42,8 +42,8 @@ export const userApi = createApi({
 
         updateUser: builder.mutation<ApiSingleResponse<User>, { id: number; data: UpdateUserRequest}> ({
             query: ({id, data}) => ({
-                url: `/v1/admin/users/${id}`,
-                method: "PUT",
+                url: `/v1/admin/user/${id}`,
+                method: "POST",
                 body: data,
             }),
             invalidatesTags: ["User"],
@@ -51,7 +51,7 @@ export const userApi = createApi({
 
         deleteUser: builder.mutation<ApiSingleResponse<null>, number>({
             query: (id) => ({
-                url: `/v1/admin/users/${id}`,
+                url: `/v1/admin/user/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["User"],

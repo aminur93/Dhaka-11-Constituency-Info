@@ -11,7 +11,7 @@ import { setCredentials } from "@/store/features/auth/authSlice";
 import { useAppDispatch } from "@/store/hook";
 
 const loginSchema = z.object({
-  email: z.string().min(1, "Email address is required").email("Invalid email address"),
+  email: z.string().min(1, "Email or phone is required"),
   password: z.string().min(1, "Password is required"),
   rememberMe: z.boolean().optional(),
 });
@@ -38,8 +38,8 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     setServerError(null);
     try {
-      const res = await login({ email: data.email, password: data.password }).unwrap();
-      dispatch(setCredentials({ user: res.data.user, token: res.data.token }));
+      const res = await login({ login: data.email, password: data.password }).unwrap();
+      dispatch(setCredentials({ user: res.data.user, token: res.data.access_token }));
       const redirectTo = searchParams.get("redirect") || "/dashboard";
       router.replace(redirectTo);
     } catch (err: unknown) {
@@ -49,7 +49,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full flex">
+    <div className="min-h-screen w-full flex flex-col lg:flex-row">
 
       {/* ── LEFT PANEL ── */}
       <div className="hidden lg:flex w-[45%] relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex-col items-center justify-center p-12">
@@ -87,7 +87,7 @@ export default function LoginForm() {
       </div>
 
       {/* ── RIGHT PANEL ── */}
-      <div className="flex-1 min-h-screen flex items-center justify-center relative overflow-hidden bg-[#f5f4ff] px-6 py-10">
+      <div className="flex-1 min-h-[100svh] flex items-center justify-center relative overflow-hidden bg-[#f5f4ff] px-4 py-8 sm:px-6 sm:py-10">
         <div className="absolute top-[-100px] right-[-100px] w-[450px] h-[450px] rounded-full bg-violet-200/50 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-[-80px] left-[-80px] w-[380px] h-[380px] rounded-full bg-purple-200/40 blur-[90px] pointer-events-none" />
         <div
@@ -98,8 +98,8 @@ export default function LoginForm() {
           }}
         />
 
-        <div className="relative z-10 w-full max-w-[420px]">
-          <div className="bg-white rounded-3xl shadow-2xl shadow-violet-100/80 border border-violet-100 p-8 md:p-10">
+        <div className="relative z-10 w-full max-w-[420px] mx-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-violet-100/80 border border-violet-100 p-6 sm:p-8 md:p-10">
 
             {/* Mobile logo */}
             <div className="lg:hidden flex justify-center mb-6">
@@ -108,7 +108,7 @@ export default function LoginForm() {
               </div>
             </div>
 
-            <h1 className="text-[22px] font-bold text-slate-800 mb-1 tracking-tight">
+            <h1 className="text-xl sm:text-[22px] font-bold text-slate-800 mb-1 tracking-tight">
               Sign in to Dashboard
             </h1>
             <p className="text-sm text-slate-400 mb-7">
@@ -127,12 +127,12 @@ export default function LoginForm() {
               {/* Email */}
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  Email address
+                  Email or Phone
                 </label>
                 <input
                   {...register("email")}
-                  type="email"
-                  placeholder="you@example.com"
+                  type="text"
+                  placeholder="you@example.com or 01XXXXXXXXX"
                   autoComplete="email"
                   className={`w-full rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-300
                     bg-slate-50 border outline-none transition-all duration-200
@@ -181,7 +181,7 @@ export default function LoginForm() {
               </div>
 
               {/* Remember + Forgot */}
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input
                     {...register("rememberMe")}
@@ -204,7 +204,7 @@ export default function LoginForm() {
                   hover:from-violet-500 hover:to-purple-500
                   active:scale-[0.98] transition-all duration-200
                   shadow-lg shadow-violet-300/50
-                  disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -231,7 +231,7 @@ export default function LoginForm() {
                 type="button"
                 className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200
                   bg-slate-50 hover:bg-white hover:border-violet-200 hover:shadow-sm
-                  text-sm text-slate-600 font-medium transition-all duration-200"
+                  text-sm text-slate-600 font-medium transition-all duration-200 cursor-pointer"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -245,7 +245,7 @@ export default function LoginForm() {
                 type="button"
                 className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200
                   bg-slate-50 hover:bg-white hover:border-violet-200 hover:shadow-sm
-                  text-sm text-slate-600 font-medium transition-all duration-200"
+                  text-sm text-slate-600 font-medium transition-all duration-200 cursor-pointer"
               >
                 <svg className="w-4 h-4 fill-slate-700 shrink-0" viewBox="0 0 24 24">
                   <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />

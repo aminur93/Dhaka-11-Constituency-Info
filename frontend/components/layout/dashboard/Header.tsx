@@ -1,12 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useLogoutMutation } from "@/store/features/auth/authApi";
+import { logout } from "@/store/features/auth/authSlice";
+import { useAppDispatch } from "@/store/hook";
+
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   Search, Bell, MessageSquare, LayoutGrid,
   ChevronDown, ChevronRight, X,
   User, Settings, Globe, Moon, LogOut,
-  FileText, Check, Archive, Inbox,
+  FileText, Check, Archive, Inbox, Menu,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -52,6 +57,11 @@ const NOTIFICATIONS = [
   },
 ];
 
+// ① Props interface যোগ করুন
+interface HeaderProps {
+  onMobileMenuOpen: () => void;
+}
+
 function useOutsideClick(ref: React.RefObject<HTMLElement | null>, cb: () => void) {
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -62,7 +72,7 @@ function useOutsideClick(ref: React.RefObject<HTMLElement | null>, cb: () => voi
   }, [ref, cb]);
 }
 
-export default function Header() {
+export default function Header({ onMobileMenuOpen }: HeaderProps) {
   const [openNav,     setOpenNav]     = useState<string | null>(null);
   const [searchOpen,  setSearchOpen]  = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -78,10 +88,35 @@ export default function Header() {
   useOutsideClick(profileRef, () => setShowProfile(false));
   useOutsideClick(notifRef,   () => setShowNotif(false));
 
-  return (
-    <header className="h-[68px] bg-white border-b border-slate-200
-      flex items-center px-8 gap-6 shrink-0 sticky top-0 z-30 shadow-sm">
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [logoutApi] = useLogoutMutation();
 
+  const handleLogout = async () => {
+    try {
+
+      await logoutApi().unwrap();
+
+    } catch {
+      
+    } finally {
+      dispatch(logout());
+      router.replace("/auth/login");
+    }
+  };
+
+  return (
+    <header className="h-[68px] bg-white border-b border-slate-200 flex items-center px-4 lg:px-8 gap-3 lg:gap-6 shrink-0 sticky top-0 z-30 shadow-sm">
+
+      {/* Mobile menu button */}
+      <button
+          onClick={onMobileMenuOpen}
+          className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl
+            text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors shrink-0"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+     
       {/* ── Nav links ── */}
       <nav ref={navRef} className="flex items-center gap-0.5 flex-1">
         {NAV_LINKS.map((link) => (
@@ -407,10 +442,10 @@ export default function Header() {
 
               {/* Log out */}
               <div className="border-t border-slate-100 p-3">
-                <button className="w-full flex items-center justify-center gap-2
+                <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2
                   py-2.5 rounded-xl text-sm font-semibold
                   text-slate-600 hover:text-red-600 hover:bg-red-50
-                  transition-colors">
+                  transition-colors cursor-pointer">
                   <LogOut className="w-4 h-4" />Log out
                 </button>
               </div>

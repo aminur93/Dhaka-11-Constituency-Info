@@ -33,22 +33,6 @@ export const showWarning = (message: string) => {
   })
 }
 
-// ─── Toast (corner notification) ────────────────
-export const showToast = (
-  message: string,
-  icon: "success" | "error" | "warning" | "info" = "success"
-) => {
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon,
-    title: message,
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-  })
-}
-
 // ─── Confirm (delete এর আগে) ────────────────────
 export const showConfirm = async (
   message: string,
@@ -82,3 +66,29 @@ export const showLoading = (message: string = "Please wait...") => {
 export const hideLoading = () => {
   Swal.close()
 }
+
+// ─── Toast (corner notification) ────────────────
+export const showToast = (
+  message: string,
+  icon: "success" | "error" | "warning" | "info" = "success"
+) => {
+  const bgColors = {
+    success: "#22c55e",
+    error:   "#ef4444",
+    warning: "#f59e0b",
+    info:    "#3b82f6",
+  };
+
+  Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon,
+    title: message,
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    background: bgColors[icon],
+    color: "#ffffff",
+    iconColor: "#ffffff",
+  });
+};

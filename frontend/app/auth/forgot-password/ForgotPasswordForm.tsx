@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useForgotPasswordMutation } from "@/store/features/auth/authApi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,6 +18,9 @@ export default function ForgotPasswordForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState("");
 
+  const [forgotPassword] = useForgotPasswordMutation();
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -26,9 +30,15 @@ export default function ForgotPasswordForm() {
   });
 
   const onSubmit = async (data: ForgotFormData) => {
-    await new Promise((r) => setTimeout(r, 1200));
-    setSubmittedEmail(data.email);
-    setSubmitted(true);
+    setServerError(null);
+    try {
+      await forgotPassword({ email: data.email }).unwrap();
+      setSubmittedEmail(data.email);
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      setServerError(error?.data?.message || "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -68,6 +78,12 @@ export default function ForgotPasswordForm() {
               <p className="text-sm text-slate-400 text-center mb-8 leading-relaxed">
                 No worries! Enter your email address and we&apos;ll send you a link to reset your password.
               </p>
+
+              {serverError && (
+                <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600">
+                  ⚠ {serverError}
+                </div>
+              )}
 
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">

@@ -9,10 +9,9 @@ export const authApi = createApi({
         prepareHeaders: (headers) => {
             const match = document.cookie.match(/(^| )access_token=([^;]+)/);
             const token = match ? match[2] : null;
-            if (token) 
-            {
+            headers.set("Accept", "application/json"); // ✅ সবসময়
+            if (token) {
                 headers.set("Authorization", `Bearer ${token}`);
-                headers.set("Accept", "application/json");
             }
             return headers;
         },
@@ -31,7 +30,26 @@ export const authApi = createApi({
                 method: "POST",
             }),
         }),
+        forgotPassword: builder.mutation<ApiSingleResponse<null>, { email: string }>({
+            query: (body) => ({
+                url: "v1/auth/forgot-password",
+                method: "POST",
+                body,
+            }),
+        }),
+        resetPassword: builder.mutation<ApiSingleResponse<null>, {
+            token: string;
+            email: string;
+            password: string;
+            password_confirmation: string;
+            }>({
+            query: (body) => ({
+                url: "v1/auth/reset-password",
+                method: "POST",
+                body,
+            }),
+        }),
     })
 })
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useForgotPasswordMutation, useResetPasswordMutation } = authApi;
