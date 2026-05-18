@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'image' => $this->image,
             'image_url' => $this->image_url,
+            'user_type' => $this->user_type,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
         ];
     }

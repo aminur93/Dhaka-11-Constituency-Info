@@ -70,6 +70,8 @@ use App\Http\Services\Api\V1\Admin\WardCommissioner\WardCommissionerService;
 use App\Http\Services\Api\V1\Admin\WardCommissioner\WardCommissionerServiceImpl;
 use App\Http\Services\Api\V1\Auth\AuthService;
 use App\Http\Services\Api\V1\Auth\AuthServiceImpl;
+use App\Http\Services\Api\V1\FrogetPassword\ForgetPasswordService;
+use App\Http\Services\Api\V1\FrogetPassword\ForgetPasswordServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceBindingProvider extends ServiceProvider
@@ -247,6 +249,11 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind(
             AreaIssueService::class,
             AreaIssueServiceImpl::class
+        );
+
+        $this->app->bind(
+            ForgetPasswordService::class,
+            ForgetPasswordServiceImpl::class
         );
     }
 

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Nette\Utils\Image;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
@@ -21,7 +20,7 @@ class AuthServiceImpl implements AuthService
         $user = User::where($loginType, $request->login)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            throw new \DomainException('Invalid credentials');
+            throw new \DomainException('Invalid credentials', 401);
         }
 
         // Access token (short lived)
@@ -31,9 +30,9 @@ class AuthServiceImpl implements AuthService
 
         // Refresh token (long lived)
         $refreshToken = JWTAuth::claims([
-            'type' => 'refresh'
-        ])->setTTL(config('jwt.refresh_ttl'))
-        ->fromUser($user);
+            'type' => 'refresh',
+            'exp' => now()->addMinutes(config('jwt.refresh_ttl'))->timestamp,
+        ])->fromUser($user);
 
         return $this->respondWithToken($accessToken, $refreshToken);
     }
@@ -58,29 +57,27 @@ class AuthServiceImpl implements AuthService
                 'type' => 'access'
             ])->fromUser($user);
 
-            return $this->respondWithToken($newAccessToken, $refreshToken); 
-
+            return $this->respondWithToken($newAccessToken, $refreshToken);
         } catch (\Exception $e) {
 
             throw new \DomainException('Refresh token expired or invalid');
         }
     }
 
-    public function logout() : bool
+    public function logout(): bool
     {
         try {
-            
+
             JWTAuth::invalidate(JWTAuth::getToken());
 
             if (Auth::check()) {
-                
+
                 activity('logout')
                     ->causedBy(Auth::user())
                     ->log('Logout successful');
             }
 
             return true;
-
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             throw new UnauthorizedHttpException(
@@ -93,21 +90,23 @@ class AuthServiceImpl implements AuthService
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param  string $accessToken
+     * @param  string $refreshToken
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
-    protected function respondWithToken($token, $refreshToken) : array
+    protected function respondWithToken(string $accessToken, string $refreshToken): array
     {
+        $user = JWTAuth::setToken($accessToken)->toUser();
 
         // Prepare the response data
         $data = [
-            'user' => Auth::user(),
-            'access_token' => $token,
+            'user' => $user, // এটা add করুন
+            'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
-            'expires_in' => config('jwt.ttl') * 60, // Token expiration time
-            'refresh_expires_in' => config('jwt.refresh_ttl') * 60
+            'expires_in' => config('jwt.ttl') * 60,
+            'refresh_expires_in' => config('jwt.refresh_ttl') * 60,
         ];
 
         return $data;
@@ -128,7 +127,7 @@ class AuthServiceImpl implements AuthService
         DB::beginTransaction();
 
         try {
-            
+
             $user = new User();
 
             $user->name = $request->name;
@@ -160,7 +159,6 @@ class AuthServiceImpl implements AuthService
             DB::commit();
 
             return $user;
-
         } catch (\Throwable $th) {
 
             DB::rollBack();

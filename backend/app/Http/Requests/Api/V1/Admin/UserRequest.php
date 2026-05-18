@@ -61,7 +61,7 @@ class UserRequest extends FormRequest
 
             'user_type' => [
                 'required',
-                'in:admin,owner,superadmin,subcription',
+                'in:admin,manager,viewer,editor,subcription',
             ],
 
             'password' => [
@@ -86,7 +86,7 @@ class UserRequest extends FormRequest
     protected function updateRules(): array
     {
         // Route model binding or id
-        $userId = $this->route('user');
+        $userId = $this->route('id');
 
         return [
             'name' => [
@@ -111,7 +111,7 @@ class UserRequest extends FormRequest
 
             'user_type' => [
                 'sometimes',
-                'in:admin,owner,superadmin,subcription',
+                'in:admin,manager,viewer,editor,subcription',
             ],
 
             'password' => [

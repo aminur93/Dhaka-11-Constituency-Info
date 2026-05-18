@@ -28,13 +28,14 @@ use App\Http\Controllers\Api\V1\Admin\VolunteerTaskController;
 use App\Http\Controllers\Api\V1\Admin\WardCommissionerController;
 use App\Http\Controllers\Api\V1\Admin\WardController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\ForgotPassword\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /**
  * Auth Route start
-*/
+ */
 
-Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function(){
+Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function () {
 
     /*Register route start*/
     Route::post('/register', [AuthController::class, 'register']);
@@ -45,7 +46,7 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
     /*Login route end*/
 
     /*logout and refresh token route start*/
-    Route::group(['middleware' => ['api', 'throttle:api']], function() {
+    Route::group(['middleware' => ['api', 'throttle:api']], function () {
 
         /*logout route start*/
         Route::post('logout', [AuthController::class, 'logout']);
@@ -53,16 +54,24 @@ Route::group(['prefix' => 'v1/auth', 'middleware' => 'throttle:api'], function()
         /*logout route end*/
     });
     /*logout and refresh token route end*/
+
+    /*Forget Password start*/
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink']);
+    /*Forget Password end*/
+
+    /*Reset password start*/
+    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
+    /*Reset password end*/
 });
 
 /**
  * Auth Route end
-*/
+ */
 
 /**
  * Admin api route start
-*/
-Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function(){
+ */
+Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], function () {
 
     /*area issue route start*/
     Route::get('area-issue', [AreaIssueController::class, 'index']);
@@ -301,12 +310,12 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => ['throttle:api']], functio
 });
 /**
  * Admin api route end
-*/
+ */
 
 /**
  * public api route start
-*/
-Route::group(['prefix' => 'v1/public'], function() {
+ */
+Route::group(['prefix' => 'v1/public'], function () {
     /*poll vote route start*/
     Route::post('poll-vote', [PollVoteController::class, 'store']);
     /*poll vote route end*/
@@ -322,4 +331,4 @@ Route::group(['prefix' => 'v1/public'], function() {
 });
 /**
  * public api route end
-*/
+ */

@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-         //Convert pagination query to boolean
+        //Convert pagination query to boolean
         $pagination = filter_var($request->get('pagination', true), FILTER_VALIDATE_BOOLEAN);
 
         // Fetch permissions via service
@@ -44,18 +44,15 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
-           $user = $this->userService->store($request);
+            $user = $this->userService->store($request);
 
-           return GlobalResponse::success($user, "User Store successful", Response::HTTP_CREATED);
-
+            return GlobalResponse::success($user, "User Store successful", Response::HTTP_CREATED);
         } catch (ValidationException $exception) {
 
             return GlobalResponse::error($exception->errors(), $exception->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-
         } catch (Exception $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -69,12 +66,10 @@ class UserController extends Controller
             $user = $this->userService->show($id);
 
             return GlobalResponse::success($user, "User fetch successful", \Illuminate\Http\Response::HTTP_OK);
-
-        }catch (ModelNotFoundException $exception){
+        } catch (ModelNotFoundException $exception) {
 
             return GlobalResponse::error("User not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -87,22 +82,20 @@ class UserController extends Controller
             $user = $this->userService->update($request, $id);
 
             return GlobalResponse::success($user, "User update successful", Response::HTTP_OK);
-
         } catch (ModelNotFoundException $exception) {
 
             return GlobalResponse::error("User not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
-
         } catch (ValidationException $exception) {
 
             return GlobalResponse::error($exception->errors(), $exception->getMessage(), $exception->getCode());
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getCode());
-
         } catch (Exception $exception) {
 
-            return GlobalResponse::error("", $exception->getMessage(), $exception->getCode());
+            $code = $exception->getCode();
+            $statusCode = ($code >= 100 && $code < 600) ? $code : 500;
+            return GlobalResponse::error("", $exception->getMessage(), $statusCode);
         }
     }
 
@@ -113,15 +106,12 @@ class UserController extends Controller
             $this->userService->destroy($id);
 
             return GlobalResponse::success(null, "User delete successful", Response::HTTP_NO_CONTENT);
-
         } catch (ModelNotFoundException $exception) {
 
             return GlobalResponse::error("User not found.", $exception->getMessage(), Response::HTTP_NOT_FOUND);
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getCode());
-
         } catch (Exception $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getCode());

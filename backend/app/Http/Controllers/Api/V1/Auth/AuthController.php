@@ -25,38 +25,34 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            
+
             $login = $this->authService->login($request);
 
             return GlobalResponse::success($login, "Login successful", Response::HTTP_OK);
-
         } catch (ValidationException $exception) {
 
             return GlobalResponse::error($exception->errors(), $exception->getMessage(), $exception->getCode());
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-            
         } catch (\Throwable $th) {
-            
-            return GlobalResponse::error("", $th->getMessage(), $th->getCode());
 
-        } 
+            $code = $th->getCode();
+            $statusCode = ($code >= 100 && $code < 600) ? $code : 500;
+            return GlobalResponse::error("", $th->getMessage(), $statusCode);
+        }
     }
 
     public function refreshToken(Request $request)
     {
         try {
-            
+
             $refreshToken = $this->authService->refreshToken($request->refreshToken);
 
             return GlobalResponse::success($refreshToken, "Generate new token successfully", Response::HTTP_OK);
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-
         } catch (\Throwable $th) {
 
             return GlobalResponse::error("", $th->getMessage(), $th->getCode());
@@ -73,23 +69,19 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-            
+
             $register = $this->authService->register($request);
 
             return GlobalResponse::success($register, "Register successful", Response::HTTP_CREATED);
-
         } catch (ValidationException $exception) {
 
             return GlobalResponse::error($exception->errors(), $exception->getMessage(), $exception->getCode());
-
         } catch (HttpException $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getStatusCode());
-            
         } catch (\Throwable $th) {
-            
-            return GlobalResponse::error("", $th->getMessage(), $th->getCode());
 
+            return GlobalResponse::error("", $th->getMessage(), $th->getCode());
         } catch (Exception $exception) {
 
             return GlobalResponse::error("", $exception->getMessage(), $exception->getCode());
